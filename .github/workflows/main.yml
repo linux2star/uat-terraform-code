@@ -1,0 +1,13 @@
+name: CI
+on: push
+
+jobs:
+  terraform:
+    runs-on: self-hosted
+    env:
+         AWS_ACCESS_KEY_ID: ${{ secrets.TERRAFROMKEYS }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: terraform init
+      - run: terraform plan -var-file="uat.tfvars"
+      - run: terraform apply -auto-approve -var-file="uat.tfvars"
